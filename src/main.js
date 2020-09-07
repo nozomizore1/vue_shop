@@ -10,6 +10,10 @@ import './assets/fonts/iconfont.css'
 import axios from 'axios'
 // axios全局配置
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
+axios.interceptors.request.use(function (config) {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
 // 将axios添加到Vue原型对象中
 Vue.prototype.$http = axios
 
