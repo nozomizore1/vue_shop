@@ -40,7 +40,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(scope.row.id)"></el-button>
             <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :nterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="toAllotRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -106,6 +106,24 @@
         <el-button type="primary" @click="editUser">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="allotRoleDialogVisible" width="50%" @close="resetSelectedRole">
+      <div>
+        <p>当前的用户：{{userInfo.username}}</p>
+        <p>当前的角色：{{userInfo.role_name}}</p>
+        <!-- 角色选择区域 -->
+        <p>分配的角色：
+          <el-select v-model="selectedRoleId" placeholder="请选择要分配的角色">
+            <el-option v-for="item in rolesList" :label="item.roleName" :key="item.id" :value="item.id" :selected="item.roleName === userInfo.role_name ? true : false"></el-option>
+          </el-select>
+        </p>
+      </div>
+      <!-- 底部按钮区域 -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="allotRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="allotRole">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -149,6 +167,8 @@ export default {
       addDialogVisible: false,
       // 控制修改用户信息对话框的显示与隐藏
       editDialogVisible: false,
+      // 控制分配角色对话框的显示与隐藏
+      allotRoleDialogVisible: false,
       // 添加用户表单信息
       addUserForm: {
         username: '',
@@ -156,6 +176,12 @@ export default {
         email: '',
         mobile: ''
       },
+      // 角色列表
+      rolesList: [],
+      // 要分配角色的用户的信息
+      userInfo: {},
+      // 选中的角色
+      selectedRoleId: '',
       // 修改用户表单信息
       editUserForm: {},
       // 添加用户表单的验证规则
@@ -304,6 +330,49 @@ export default {
       this.$message.success('删除用户成功')
       // 重新获取用户列表
       this.getUserList()
+    },
+    // 点击分配角色按钮显示分配角色对话框并展示当前用户的角色
+    toAllotRole: async function (User) {
+      const { data: result } = await this.$http.get('roles')
+      if (result.meta.status !== 200) {
+        return this.$message.error('获取角色列表失败')
+      }
+      // 将用户列表赋值给rolesList
+      this.rolesList = result.data
+      // 将当前用户信息传给userInfo
+      this.userInfo = User
+      // 修改selectedRoleId，使选择框默认选择当前角色
+      var id = ''
+      await result.data.some(function (value) {
+        if (value.roleName === User.role_name) {
+          id = value.id
+          return true
+        }
+      })
+      this.selectedRoleId = id
+      // 展示分配角色对话框
+      this.allotRoleDialogVisible = true
+    },
+    // 分配角色
+    allotRole: async function () {
+      // 判断用户是否选择了要分配的角色
+      if (!this.selectedRoleId) {
+        return this.$message.error('请选择要分配的角色')
+      }
+      // 向服务器发送请求，修改用户角色
+      const { data: result } = await this.$http.put(`users/${this.userInfo.id}/role`, {
+        rid: this.selectedRoleId
+      })
+      if (result.meta.status !== 200) {
+        return this.$message.error('分配角色失败')
+      }
+      this.$message.success('分配角色成功')
+      this.allotRoleDialogVisible = false
+      this.getUserList()
+    },
+    // 分配角色对话框关闭事件 触发时 执行的函数
+    resetSelectedRole: function () {
+      this.selectedRoleId = ''
     }
   },
   created () {

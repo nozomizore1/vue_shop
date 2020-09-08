@@ -4,6 +4,7 @@ body,
   height: 100%;
   width: 100%;
   margin: 0;
+  min-width: 1080px;
 }
 .el-breadcrumb {
   margin-bottom: 15px;
@@ -20,4 +21,17 @@ body,
 }
 .el-pagination {
   margin-top: 20px;
+}
+.rolesList {
+  margin-top: 20px;
+}
+.el-tag {
+  margin: 5px;
+}
+.row-head {
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+}
+.row-body {
+  border-bottom: 1px solid #000;
 }
