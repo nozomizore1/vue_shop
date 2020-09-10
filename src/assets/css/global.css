@@ -35,3 +35,6 @@ body,
 .row-body {
   border-bottom: 1px solid #000;
 }
+.el-cascader-panel {
+  height: 204px;
+}
