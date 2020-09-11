@@ -16,9 +16,6 @@ body,
 .el-table {
   margin-top: 20px;
 }
-.cell {
-  text-align: center;
-}
 .el-pagination {
   margin-top: 20px;
 }
@@ -37,4 +34,7 @@ body,
 }
 .el-cascader-panel {
   height: 204px;
+}
+.ql-editor {
+  min-height: 400px;
 }

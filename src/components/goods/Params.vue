@@ -47,9 +47,9 @@
                   <el-button v-else size="small" @click="shouInput(scope.row)">+ New Tag</el-button>
                 </template>
               </el-table-column>
-              <el-table-column type="index"></el-table-column>
+              <el-table-column align="center" type="index"></el-table-column>
               <el-table-column prop="attr_name" label="参数名称"></el-table-column>
-              <el-table-column label="操作">
+              <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
                   <el-button type="primary" icon="el-icon-edit" size="mini" @click="toEditParams(scope.row.attr_id)">修改</el-button>
                   <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteParams(scope.row.attr_id)">删除</el-button>
@@ -134,7 +134,7 @@ export default {
       },
       // 关联添加分类时选中的id
       selectedCateKeys: [],
-      // 被激活的页签的名称(点击页签标题会变成对应的name值)，现在默认显示的是name为first的页面
+      // 被激活的页签的名称(点击页签标题会变成对应的name值)，现在默认显示的是name为many的页面
       activeName: 'many',
       // 从服务器中获取的动态参数数据
       manyList: [],

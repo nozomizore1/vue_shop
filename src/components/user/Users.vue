@@ -22,17 +22,17 @@
       <!-- 用户列表区域 -->
       <el-table :data="userList" border stripe>
         <el-table-column type="index"></el-table-column>
-        <el-table-column prop="id" label="用户ID" width="100"></el-table-column>
-        <el-table-column prop="username" label="姓名" width="100"></el-table-column>
-        <el-table-column prop="email" label="邮箱地址" width="180"></el-table-column>
-        <el-table-column prop="mobile" label="电话" width="180"></el-table-column>
-        <el-table-column prop="role_name" label="角色" width="100"></el-table-column>
-        <el-table-column label="用户状态" width="100">
+        <el-table-column align="center" prop="id" label="用户ID" width="100"></el-table-column>
+        <el-table-column align="center" prop="username" label="姓名" width="100"></el-table-column>
+        <el-table-column align="center" prop="email" label="邮箱地址" width="180"></el-table-column>
+        <el-table-column align="center" prop="mobile" label="电话" width="180"></el-table-column>
+        <el-table-column align="center" prop="role_name" label="角色" width="100"></el-table-column>
+        <el-table-column align="center" label="用户状态" width="100">
           <template slot-scope="scope">
             <el-switch @change="userStateChange(scope.row)" v-model="scope.row.mg_state"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="getEditUser(scope.row.id)"></el-button>
